@@ -21,7 +21,6 @@ export class AuthService {
     };
   }
   async signUp(payload: CreateUserDto) {
-    const user = await this.usersService.create(payload);
-    return user;
+    await this.usersService.create(payload);
   }
 }

@@ -1,4 +1,2 @@
-import { BaseUser } from "./base-user.dto";
-export class UpdateUserDto extends BaseUser {
-  updatedAt: Date;
-}
+import { BaseUser } from './base-user.dto';
+export class UpdateUserDto extends BaseUser {}

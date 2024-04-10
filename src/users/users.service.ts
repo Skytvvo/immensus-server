@@ -16,6 +16,7 @@ export class UsersService {
     return this.userRepository.save({
       ...createUserDto,
       createdAt: new Date(),
+      updated: new Date(),
     });
   }
 }
