@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/dto/user/create-user.dto';
 import { UserEntity } from 'src/entities/user.entity';
-import { MongoRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: MongoRepository<UserEntity>,
+    private userRepository: Repository<UserEntity>,
   ) {}
   async findOneBy(email: string): Promise<UserEntity | undefined> {
     return await this.userRepository.findOneBy({ email: email });

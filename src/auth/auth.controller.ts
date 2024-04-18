@@ -5,9 +5,13 @@ import {
   HttpCode,
   HttpStatus,
   Res,
+  UseGuards,
+  Get,
+  Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './public-strategy';
+import { AuthGuard } from './auth.guard';
 import { Response } from 'express';
 
 @Controller('auth')
@@ -25,26 +29,25 @@ export class AuthController {
       signInDto.email,
       signInDto.password,
     );
-
-    response
-      .cookie('access_token', access_token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
-      })
-      .send({ status: 'ok' });
+    response.send({ access_token });
   }
   @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('registration')
-  signUp(@Body() signUpDto: Record<string, any>) {
+  async signUp(@Body() signUpDto: Record<string, any>) {
     const payload = {
       username: signUpDto.username,
       email: signUpDto.email,
       password: signUpDto.password,
       createdAt: new Date(),
     };
-    return this.authService.signUp(payload);
+    return await this.authService.signUp(payload);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    const { id, email, username } = req.user;
+    return { id, email, username };
   }
 }

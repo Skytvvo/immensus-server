@@ -8,6 +8,7 @@ import { UserEntity } from 'src/entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { ConfigService } from '@nestjs/config';
+import { ProductEntity } from '../entities/product.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { ConfigService } from '@nestjs/config';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, ProductEntity]),
   ],
   controllers: [AuthController],
   providers: [
