@@ -28,10 +28,14 @@ export class ProductsService {
 
   async getProductById(productId: string) {
     try {
-      const product = await this.productRepository.findOneBy({ id: productId });
-      return product;
+      console.log(productId);
+      return await this.productRepository.findOneBy({ id: productId });
     } catch (e) {
       throw e;
     }
+  }
+
+  async getProducts() {
+    return await this.productRepository.find();
   }
 }
