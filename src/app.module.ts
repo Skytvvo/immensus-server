@@ -11,13 +11,11 @@ import { FiltersModule } from './filters/filters.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CloudModule } from './cloud/cloud.module';
-import config from '../config/configuration';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
-      load: [config],
+      isGlobal: true
     }),
     AuthModule,
     UsersModule,
