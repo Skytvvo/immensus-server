@@ -10,6 +10,7 @@ import { AddressesModule } from './addresses/addresses.module';
 import { FiltersModule } from './filters/filters.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { CloudModule } from './cloud/cloud.module';
 import config from '../config/configuration';
 
 @Module({
@@ -36,6 +37,7 @@ import config from '../config/configuration';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    CloudModule,
   ],
   controllers: [AppController],
   providers: [AppService],

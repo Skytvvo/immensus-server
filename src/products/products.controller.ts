@@ -19,13 +19,13 @@ import { AuthGuard } from '../auth/auth.guard';
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard)
   @Post('create')
+  @UseGuards(AuthGuard)
   async createProduct(
     @Body() createProductDto: CreateProduct,
     @Res() response: Response,
   ) {
+    console.log(createProductDto);
     const createdProductId =
       await this.productsService.createProduct(createProductDto);
     response.send({ createdProductId });

@@ -12,14 +12,8 @@ export class ProductsService {
   ) {}
 
   async createProduct(createProductDto: CreateProduct) {
-    const { picture: _, ...restProps }: CreateProduct = createProductDto;
     try {
-      const { id } = await this.productRepository.save({
-        ...restProps,
-        // todo: add AWS
-        picture:
-          'https://static.nike.com/a/images/f_auto,cs_srgb/w_1536,c_limit/g1ljiszo4qhthfpluzbt/nike-joyride.jpg',
-      });
+      const { id } = await this.productRepository.save(createProductDto);
       return id;
     } catch (e) {
       throw e;
