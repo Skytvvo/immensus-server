@@ -25,7 +25,6 @@ export class ProductsController {
     @Body() createProductDto: CreateProduct,
     @Res() response: Response,
   ) {
-    console.log(createProductDto);
     const createdProductId =
       await this.productsService.createProduct(createProductDto);
     response.send({ createdProductId });

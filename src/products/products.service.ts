@@ -22,7 +22,6 @@ export class ProductsService {
 
   async getProductById(productId: string) {
     try {
-      console.log(productId);
       return await this.productRepository.findOneBy({ id: productId });
     } catch (e) {
       throw e;
