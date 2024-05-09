@@ -15,7 +15,7 @@ import { CloudModule } from './cloud/cloud.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     AuthModule,
     UsersModule,
@@ -37,6 +37,7 @@ import { CloudModule } from './cloud/cloud.module';
     }),
     CloudModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })
