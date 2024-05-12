@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Response } from 'express';
-import { CreateProduct } from '../dto/product/create-product';
+import { CreateProductDto } from '../dto/product/create-product.dto';
 import { Public } from '../auth/public-strategy';
 import { AuthGuard } from '../auth/auth.guard';
 
@@ -22,7 +22,7 @@ export class ProductsController {
   @Post('create')
   @UseGuards(AuthGuard)
   async createProduct(
-    @Body() createProductDto: CreateProduct,
+    @Body() createProductDto: CreateProductDto,
     @Res() response: Response,
   ) {
     const createdProductId =

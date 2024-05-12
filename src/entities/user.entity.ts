@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CartItemEntity } from './cartItem.entity';
+import { CartEntity } from './cart.entity';
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -12,6 +12,8 @@ export class UserEntity {
   password: string;
   @Column()
   createdAt: Date;
-  @OneToMany(() => CartItemEntity, (cartItem) => cartItem.user)
-  cartItems: CartItemEntity[];
+  @OneToMany(() => CartEntity, (cartEntity) => cartEntity.user, {
+    cascade: true,
+  })
+  carts: CartEntity[];
 }

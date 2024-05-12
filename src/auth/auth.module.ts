@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { ConfigService } from '@nestjs/config';
 import { ProductEntity } from '../entities/product.entity';
+import { CartEntity } from '../entities/cart.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { ProductEntity } from '../entities/product.entity';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([UserEntity, ProductEntity]),
+    TypeOrmModule.forFeature([CartEntity, UserEntity, ProductEntity]),
   ],
   controllers: [AuthController],
   providers: [

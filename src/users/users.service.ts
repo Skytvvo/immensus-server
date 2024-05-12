@@ -17,6 +17,7 @@ export class UsersService {
       ...createUserDto,
       createdAt: new Date(),
       updated: new Date(),
+      carts: [],
     });
   }
 }
