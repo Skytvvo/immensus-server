@@ -40,11 +40,25 @@ export class CartService {
         await this.cartEntityRepository.update(existingCart.id, { quantity });
       }
     } else {
-      this.cartEntityRepository.create({
+      await this.cartEntityRepository.save({
         quantity,
         user: cartUser,
         product,
       });
     }
+  }
+
+  async getCart(currentUserId: string) {
+    const currentUser = await this.userRepository.findOneBy({
+      id: currentUserId,
+    });
+    return await this.cartEntityRepository.find({
+      relations: {
+        product: {},
+      },
+      where: {
+        user: currentUser,
+      },
+    });
   }
 }

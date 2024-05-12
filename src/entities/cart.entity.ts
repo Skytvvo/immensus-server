@@ -1,9 +1,4 @@
-import {
-  Entity,
-  ManyToOne,
-  Column,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, ManyToOne, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { UserEntity } from './user.entity';
 
@@ -11,9 +6,6 @@ import { UserEntity } from './user.entity';
 export class CartEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
-
-  @Column()
-  total: number;
 
   @Column()
   quantity: number;

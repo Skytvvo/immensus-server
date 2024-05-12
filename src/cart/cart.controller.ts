@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -23,5 +24,12 @@ export class CartController {
     @Request() req,
   ) {
     return await this.cartService.addToCart(createCartItemDto, req.user.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get('get')
+  async getCart(@Request() req) {
+    return await this.cartService.getCart(req.user.id);
   }
 }
