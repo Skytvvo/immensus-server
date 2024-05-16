@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCartItemDto } from '../dto/cartItem/create-cartItem.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from '../entities/cart.entity';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { ProductEntity } from '../entities/product.entity';
+import { UpdateCartItemDto } from '../dto/cartItem/update-cartItem.dto';
 
 @Injectable()
 export class CartService {
@@ -17,10 +18,12 @@ export class CartService {
     private productRepository: Repository<ProductEntity>,
   ) {}
 
-  async addToCart(
+  async createCart(
     { productId, quantity }: CreateCartItemDto,
     currentUserId: string,
   ) {
+    if (quantity < 1) throw new BadRequestException();
+
     const cartUser = await this.userRepository.findOneBy({
       id: currentUserId,
     });
@@ -31,21 +34,24 @@ export class CartService {
       product: product,
     });
 
-    if (existingCart) {
-      if (quantity === 0) {
-        await this.cartEntityRepository.delete(existingCart);
-      } else {
-        existingCart.quantity = quantity;
+    if (existingCart) throw new BadRequestException();
 
-        await this.cartEntityRepository.update(existingCart.id, { quantity });
-      }
-    } else {
-      await this.cartEntityRepository.save({
-        quantity,
-        user: cartUser,
-        product,
-      });
-    }
+    await this.cartEntityRepository.save({
+      quantity,
+      user: cartUser,
+      product,
+    });
+  }
+
+  async updateCart({ id, quantity }: UpdateCartItemDto) {
+    if (quantity < 1) throw new BadRequestException();
+
+    const existingCart = await this.cartEntityRepository.findOneBy({
+      id,
+    });
+
+    existingCart.quantity = quantity;
+    await this.cartEntityRepository.update(existingCart.id, { quantity });
   }
 
   async getCart(currentUserId: string) {
@@ -59,6 +65,12 @@ export class CartService {
       where: {
         user: currentUser,
       },
+    });
+  }
+
+  async emptyCart(cartId: string) {
+    await this.cartEntityRepository.delete({
+      id: cartId,
     });
   }
 }
