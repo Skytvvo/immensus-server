@@ -1,7 +1,12 @@
-import { DynamicModule, Module } from "@nestjs/common";
+import { DynamicModule, Module } from '@nestjs/common';
 import { StripeController } from './stripe.controller';
 import { StripeService } from './stripe.service';
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CartEntity } from '../entities/cart.entity';
+import { UserEntity } from '../entities/user.entity';
+import { ProductEntity } from '../entities/product.entity';
+import { OrderEntity } from '../entities/order.entity';
 
 @Module({})
 export class StripeModule {
@@ -9,7 +14,15 @@ export class StripeModule {
     return {
       module: StripeModule,
       controllers: [StripeController],
-      imports: [ConfigModule.forRoot()],
+      imports: [
+        ConfigModule.forRoot(),
+        TypeOrmModule.forFeature([
+          CartEntity,
+          UserEntity,
+          ProductEntity,
+          OrderEntity,
+        ]),
+      ],
       providers: [
         StripeService,
         {
