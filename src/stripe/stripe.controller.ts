@@ -34,4 +34,10 @@ export class StripeController {
       userId: req.user.id,
     });
   }
+
+  @UseGuards(AuthGuard)
+  @Get()
+  async getOrders(@Request() req) {
+    return await this.stripeService.getOrders(req.user.id);
+  }
 }

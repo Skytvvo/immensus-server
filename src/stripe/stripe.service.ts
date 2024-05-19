@@ -78,4 +78,14 @@ export class StripeService {
 
     return session.url;
   }
+
+  async getOrders(userId: string) {
+    const owner = await this.userRepository.findOneBy({ id: userId });
+    return await this.orderEntityRepository.find({
+      where: {
+        user: owner,
+      },
+      relations: ['products'],
+    });
+  }
 }
