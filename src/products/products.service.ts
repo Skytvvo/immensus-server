@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from '../dto/product/create-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductEntity } from '../entities/product.entity';
-import { Repository } from 'typeorm';
+import { ProductEntity, ProductState } from '../entities/product.entity';
+import { Not, Repository } from 'typeorm';
 import { UpdateProductDto } from '../dto/product/update-product.dto';
 
 @Injectable()
@@ -42,6 +42,14 @@ export class ProductsService {
   }
 
   async getProducts() {
-    return await this.productRepository.find();
+    return await this.productRepository.find({
+      where: {
+        state: Not(ProductState.DELETED),
+      },
+    });
+  }
+
+  async deleteProduct(id: string) {
+    await this.productRepository.update(id, { state: ProductState.DELETED });
   }
 }

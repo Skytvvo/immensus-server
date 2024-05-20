@@ -8,6 +8,11 @@ import {
 import { CartEntity } from './cart.entity';
 import { OrderEntity } from './order.entity';
 
+export enum ProductState {
+  ACTIVE = 'ACTIVE',
+  DELETED = 'DELETED',
+}
+
 @Entity()
 export class ProductEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -20,6 +25,12 @@ export class ProductEntity {
   price: number;
   @Column()
   picture: string;
+  @Column({
+    type: 'enum',
+    enum: ProductState,
+    default: ProductState.ACTIVE,
+  })
+  state: ProductState;
 
   @OneToMany(() => CartEntity, (cartEntity) => cartEntity.product, {
     cascade: true,

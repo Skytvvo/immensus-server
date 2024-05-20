@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Put,
   Query,
@@ -56,5 +58,11 @@ export class ProductsController {
   async getProducts(@Res() response: Response) {
     const products = await this.productsService.getProducts();
     response.send(products);
+  }
+
+  @Delete('delete/:id')
+  @UseGuards(AuthGuard)
+  async deleteProduct(@Param('id') id: string) {
+    await this.productsService.deleteProduct(id);
   }
 }
