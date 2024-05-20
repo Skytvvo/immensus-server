@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Query,
   Res,
   UseGuards,
@@ -14,6 +15,7 @@ import { Response } from 'express';
 import { CreateProductDto } from '../dto/product/create-product.dto';
 import { Public } from '../auth/public-strategy';
 import { AuthGuard } from '../auth/auth.guard';
+import { UpdateProductDto } from '../dto/product/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -28,6 +30,16 @@ export class ProductsController {
     const createdProductId =
       await this.productsService.createProduct(createProductDto);
     response.send({ createdProductId });
+  }
+
+  @Put('update')
+  @UseGuards(AuthGuard)
+  async updateProduct(
+    @Body() updateProductDto: UpdateProductDto,
+    @Res() response: Response,
+  ) {
+    const id = await this.productsService.updateProduct(updateProductDto);
+    response.send({ id });
   }
 
   @HttpCode(HttpStatus.OK)

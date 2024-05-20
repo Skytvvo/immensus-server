@@ -3,6 +3,7 @@ import { CreateProductDto } from '../dto/product/create-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../entities/product.entity';
 import { Repository } from 'typeorm';
+import { UpdateProductDto } from '../dto/product/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -17,6 +18,15 @@ export class ProductsService {
         ...createProductDto,
         carts: [],
       });
+      return id;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async updateProduct({ id, ...rest }: UpdateProductDto) {
+    try {
+      await this.productRepository.update(id, rest);
       return id;
     } catch (e) {
       throw e;
