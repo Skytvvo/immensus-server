@@ -2,11 +2,13 @@ import {
   Column,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { OrderEntity } from './order.entity';
+import { UserEntity } from './user.entity';
 
 export enum ProductState {
   ACTIVE = 'ACTIVE',
@@ -41,4 +43,7 @@ export class ProductEntity {
     cascade: true,
   })
   orders: OrderEntity[];
+
+  @ManyToOne(() => UserEntity, (user) => user.products)
+  creator: UserEntity;
 }

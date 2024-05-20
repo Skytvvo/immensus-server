@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  Request,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -28,9 +29,12 @@ export class ProductsController {
   async createProduct(
     @Body() createProductDto: CreateProductDto,
     @Res() response: Response,
+    @Request() req,
   ) {
-    const createdProductId =
-      await this.productsService.createProduct(createProductDto);
+    const createdProductId = await this.productsService.createProduct(
+      createProductDto,
+      req.user.id,
+    );
     response.send({ createdProductId });
   }
 
@@ -64,5 +68,11 @@ export class ProductsController {
   @UseGuards(AuthGuard)
   async deleteProduct(@Param('id') id: string) {
     await this.productsService.deleteProduct(id);
+  }
+
+  @Get('all')
+  @UseGuards(AuthGuard)
+  async getAll(@Request() req) {
+    return await this.productsService.getAll(req.user.id);
   }
 }

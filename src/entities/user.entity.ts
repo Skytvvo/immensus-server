@@ -1,6 +1,14 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { OrderEntity } from './order.entity';
+import { ProductEntity } from './product.entity';
+
+export enum UserRoles {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+  SELLER = 'SELLER',
+}
+
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -13,6 +21,12 @@ export class UserEntity {
   password: string;
   @Column()
   createdAt: Date;
+  @Column({
+    type: 'enum',
+    enum: UserRoles,
+    default: UserRoles.USER,
+  })
+  role: UserRoles;
 
   @OneToMany(() => CartEntity, (cartEntity) => cartEntity.user, {
     cascade: true,
@@ -23,4 +37,7 @@ export class UserEntity {
     cascade: true,
   })
   orders: OrderEntity[];
+
+  @OneToMany(() => ProductEntity, (product) => product.creator)
+  products: ProductEntity[];
 }
