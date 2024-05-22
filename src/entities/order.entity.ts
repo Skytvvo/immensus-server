@@ -13,6 +13,7 @@ export enum OrderStatusEnum {
   PROCESSING = 'PROCESSING',
   DELIVERING = 'DELIVERING',
   DELIVERED = 'DELIVERED',
+  CANCELED = 'CANCELED',
 }
 
 @Entity()

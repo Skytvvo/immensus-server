@@ -7,6 +7,7 @@ import { CartEntity } from '../entities/cart.entity';
 import { In, Repository } from 'typeorm';
 import { OrderEntity, OrderStatusEnum } from '../entities/order.entity';
 import { UserEntity, UserRoles } from '../entities/user.entity';
+import { UpdateControlledOrderDto } from '../dto/order/update-controlled-order.dto';
 
 @Injectable()
 export class StripeService {
@@ -105,5 +106,14 @@ export class StripeService {
       relations: ['products', 'user'],
       where,
     });
+  }
+
+  async updateControlledProducts({
+    id,
+    status,
+    address,
+  }: UpdateControlledOrderDto) {
+    console.log(id, status, address)
+    return this.orderEntityRepository.update(id, { status, address });
   }
 }

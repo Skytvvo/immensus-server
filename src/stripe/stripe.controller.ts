@@ -3,12 +3,14 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { CreateOrderDto } from '../dto/order/create-order.dto';
+import { UpdateControlledOrderDto } from '../dto/order/update-controlled-order.dto';
 
 @Controller('order')
 export class StripeController {
@@ -45,5 +47,15 @@ export class StripeController {
   @Get('controlled')
   async getControlledProducts(@Request() req) {
     return await this.stripeService.getControlledProducts(req.user.id);
+  }
+  @UseGuards(AuthGuard)
+  @Put('controlled/update')
+  async updateControlledProducts(
+    @Body() updateControlledOrderDto: UpdateControlledOrderDto,
+    @Request() req,
+  ) {
+    return await this.stripeService.updateControlledProducts(
+      updateControlledOrderDto,
+    );
   }
 }
