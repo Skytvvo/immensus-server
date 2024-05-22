@@ -40,4 +40,10 @@ export class StripeController {
   async getOrders(@Request() req) {
     return await this.stripeService.getOrders(req.user.id);
   }
+
+  @UseGuards(AuthGuard)
+  @Get('controlled')
+  async getControlledProducts(@Request() req) {
+    return await this.stripeService.getControlledProducts(req.user.id);
+  }
 }

@@ -5,7 +5,6 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { CartModule } from './cart/cart.module';
-import { AddressesModule } from './addresses/addresses.module';
 import { FiltersModule } from './filters/filters.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -21,7 +20,6 @@ import { StripeModule } from './stripe/stripe.module';
     UsersModule,
     ProductsModule,
     CartModule,
-    AddressesModule,
     FiltersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',

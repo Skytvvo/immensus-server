@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { CreateOrderDto } from '../dto/order/create-order.dto';
@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from '../entities/cart.entity';
 import { In, Repository } from 'typeorm';
 import { OrderEntity, OrderStatusEnum } from '../entities/order.entity';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity, UserRoles } from '../entities/user.entity';
 
 @Injectable()
 export class StripeService {
@@ -86,6 +86,24 @@ export class StripeService {
         user: owner,
       },
       relations: ['products'],
+    });
+  }
+
+  async getControlledProducts(id: string) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (user.role === UserRoles.USER) throw new ForbiddenException();
+
+    const where =
+      user.role === UserRoles.ADMIN
+        ? {}
+        : {
+            user,
+          };
+
+    return await this.orderEntityRepository.find({
+      relations: ['products', 'user'],
+      where,
     });
   }
 }
