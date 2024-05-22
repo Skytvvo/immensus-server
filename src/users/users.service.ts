@@ -41,4 +41,13 @@ export class UsersService {
 
     await this.userRepository.update(updatingUserId, updateUserDto);
   }
+
+  async getProfile(id: string) {
+    return await this.userRepository.findOne({
+      where: {
+        id,
+      },
+      select: ['id', 'email', 'role', 'username'],
+    });
+  }
 }

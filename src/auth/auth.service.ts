@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/dto/user/create-user.dto';
+import { find } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -22,5 +23,9 @@ export class AuthService {
   }
   async signUp(payload: CreateUserDto) {
     await this.usersService.create(payload);
+  }
+
+  async getProfile(id: string) {
+    return await this.usersService.getProfile(id);
   }
 }
