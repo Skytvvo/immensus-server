@@ -25,6 +25,10 @@ export class OrderEntity {
   @Column()
   address: string;
   @Column({
+    default: 0,
+  })
+  cost: number;
+  @Column({
     type: 'enum',
     enum: OrderStatusEnum,
     default: OrderStatusEnum.PROCESSING,

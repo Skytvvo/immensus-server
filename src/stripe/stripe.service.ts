@@ -55,7 +55,7 @@ export class StripeService {
         product_data: {
           name: 'test',
         },
-        unit_amount: price,
+        unit_amount: price * 100,
       },
     }));
 
@@ -73,6 +73,10 @@ export class StripeService {
       user: owner,
       status: OrderStatusEnum.PROCESSING,
       products: cartItems.map(({ product }) => product),
+      cost: cartItems.reduce(
+        (acc, curr) => acc + curr.quantity * curr.product.price,
+        0,
+      ),
     });
 
     await this.cartEntityRepository.remove(cartItems);
@@ -113,7 +117,7 @@ export class StripeService {
     status,
     address,
   }: UpdateControlledOrderDto) {
-    console.log(id, status, address)
+    console.log(id, status, address);
     return this.orderEntityRepository.update(id, { status, address });
   }
 }
